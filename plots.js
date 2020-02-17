@@ -10,7 +10,7 @@ function init() {
           .text(sample)
           .property("value", sample)
       });
-optionChanged("940");
+optionChanged();
 })}
 
 init();

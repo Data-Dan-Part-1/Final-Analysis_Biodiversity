@@ -38,10 +38,10 @@ function buildMetadata(sample) {
   });
 }
 
-function buildCharts(sample) {
+function buildCharts(samples) {
   d3.json('samples.json').then((data) => {
       var OTU = data.samples;
-      var resultOTU = OTU.filter(sampleObj => sampleObj.id == sample);
+      var resultOTU = OTU.filter(sampleObj => sampleObj.id == samples);
       var finalOTU = resultOTU[0];
       var otu_ids = resultOTU.otu_ids;
       var OTUCount = resultOTU[1];
@@ -51,7 +51,7 @@ function buildCharts(sample) {
 
       var data = [
         {
-          domain: { x: [0, 1], y: [0, 1] },
+          domain: { x: [resultOTU, wfreq], y: [resultOTU, wfreq] },
           value: 2,
               title: { text: "Belly Button Washing Frequency" },
               type: "indicator",
@@ -63,10 +63,8 @@ function buildCharts(sample) {
       Plotly.newPlot('gauge', data);
               
       var trace = {
-          //x: otu_ids,
-          x: [40,40,47,50,51,71,78,113,126,163],
-          //y: sample_values,
-          y: ["OTU 1977", "OTU 2318", "OTU 189", "OTU 352", "OTU 1189", "OTU 41", "OTU 2264", "OTU 482", "OTU 2859", "OTU 1167"],
+          x: [otu_ids],
+          y: [sample_values],
           type: 'bar',
           orientation: 'h'
       };
@@ -78,13 +76,12 @@ function buildCharts(sample) {
       Plotly.newPlot('bar', data, layout);
 
       var trace1 ={
-          //x:
-          x: [1167, 2859, 482, 2264, 41, 1189, 352, 189, 2318, 1977, 3450, 874, 1959, 2191, 1950, 2077],
-          y: [163, 126, 113, 78, 71, 51, 50, 47, 40, 40, 37, 36, 30, 28, 25, 23],
+          x: [resultOTU],
+          y: [sample_values],
           mode: 'markers',
           marker: {
-              size: [163, 126, 113, 78, 71, 51, 50, 47, 40, 40, 37, 36, 30, 28, 25, 23],
-              color: [1167, 2859, 482, 2264, 41, 1189, 352, 189, 2318, 1977, 3450, 874, 1959, 2191, 1950, 2077],
+              size: [sample_values],
+              color: [otu_ids],
           }
       };
     
